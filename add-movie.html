@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Add Movie — BRGlobal (Support only)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="left"><div class="logo"><span class="logo-accent">BR</span>Global Support</div></div>
+    <div class="right"><nav class="main-nav"><a href="index.html">Home</a><a href="support.html">Support</a></nav></div>
+  </header>
+
+  <main>
+    <section class="movies-section">
+      <h2>Add Movie (Support Only)</h2>
+
+      <div class="premium-card" id="gate">
+        <p class="subtle">This page is protected. Please enter the secret ID to access the add-movie form.</p>
+        <div style="margin-top:8px;display:flex;gap:8px;">
+          <input id="secret" type="password" placeholder="Enter secret ID (e.g. MAA)" style="padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:#fff;">
+          <button id="unlock" class="btn">Unlock</button>
+        </div>
+      </div>
+
+      <div class="form-card" id="addForm" style="display:none;max-width:720px;">
+        <h3>Add new movie</h3>
+        <p class="subtle">Fill in the details below and click Add. New items are stored locally and will appear on the homepage.</p>
+        <input id="mtitle" type="text" placeholder="Title" required>
+        <input id="mimg" type="url" placeholder="Image URL (poster)" required>
+        <input id="myear" type="number" placeholder="Year (e.g. 2024)">
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button id="addBtn" class="btn">Add Movie</button>
+          <button id="backBtn" class="copy-btn">Back to Home</button>
+        </div>
+        <p class="subtle" style="margin-top:8px;">Note: This is a demo. In production the form would be authenticated and submissions saved to a server database.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><p>© BRGlobal — Demo UI. Support Phone: <a href="tel:9935266269">9935266269</a></p></footer>
+
+  <script>
+    // secret gate (simple client-side check)
+    const SECRET = 'MAA'; // case-sensitive by design per request
+    const unlock = document.getElementById('unlock');
+    const secretInput = document.getElementById('secret');
+    const addForm = document.getElementById('addForm');
+    const gate = document.getElementById('gate');
+
+    unlock.addEventListener('click', () => {
+      const v = String(secretInput.value || '').trim();
+      if (v === SECRET) {
+        gate.style.display = 'none';
+        addForm.style.display = 'block';
+      } else {
+        alert('Invalid secret ID. Access denied.');
+      }
+    });
+
+    // allow Enter to unlock
+    secretInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') unlock.click(); });
+
+    // handle adding a movie to localStorage
+    const USER_KEY = 'brglobal_user_movies';
+    document.getElementById('addBtn').addEventListener('click', () => {
+      const title = document.getElementById('mtitle').value.trim();
+      const img = document.getElementById('mimg').value.trim();
+      const year = Number(document.getElementById('myear').value) || undefined;
+      if (!title || !img) return alert('Please enter at least a title and image URL.');
+      const entry = { title, img, year };
+      try {
+        const existing = JSON.parse(localStorage.getItem(USER_KEY) || '[]');
+        existing.unshift(entry); // newest first
+        localStorage.setItem(USER_KEY, JSON.stringify(existing));
+        alert('Movie added locally. Open the homepage to see it listed.');
+        // clear fields
+        document.getElementById('mtitle').value = '';
+        document.getElementById('mimg').value = '';
+        document.getElementById('myear').value = '';
+      } catch (err) {
+        alert('Failed to save movie (localStorage error).');
+      }
+    });
+
+    document.getElementById('backBtn').addEventListener('click', () => { location.href = 'index.html'; });
+  </script>
+</body>
+</html>

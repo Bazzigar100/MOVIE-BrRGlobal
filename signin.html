@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sign In — BRGlobal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="left"><div class="logo"><span class="logo-accent">BR</span>Global</div></div>
+    <div class="right"><nav class="main-nav"><a href="index.html">Home</a><a href="premium.html">Premium</a><a href="support.html">Support</a></nav></div>
+  </header>
+
+  <main>
+    <section class="form-section">
+      <div class="form-card">
+        <h2>Create Account / Sign In</h2>
+        <form id="signForm">
+          <input id="fullname" type="text" placeholder="Full Name" required>
+          <input id="email" type="email" placeholder="Email Address" required>
+          <input id="password" type="password" placeholder="Password" required>
+          <input id="mobile" type="tel" placeholder="Mobile Number" required>
+          <input id="city" type="text" placeholder="City / State" required>
+          <button type="submit" class="btn">Continue</button>
+        </form>
+        <p class="subtle">By continuing, you agree to BRGlobal Terms & Privacy Policy.</p>
+        <p class="subtle">Already a member? <a href="signin.html">Sign in</a> • Want Premium? <a href="premium.html">Get Premium</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© BRGlobal — Demo UI.</p>
+    <p class="subtle">Customer Support — Karnataka • Phone: <a href="tel:9935266269">9935266269</a></p>
+  </footer>
+
+  <script>
+    // Basic form handler (mock)
+    document.getElementById('signForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      const name = document.getElementById('fullname').value.trim();
+      const email = document.getElementById('email').value.trim();
+      if (!name || !email) return alert('Please fill required fields');
+      // Mock sign-in / account creation
+      alert('Welcome, ' + name + '!\nAccount created / signed in (demo).');
+      // Suggest upgrading to premium
+      if (confirm('Would you like to view premium plans?')) location.href = 'premium.html';
+    });
+  </script>
+</body>
+</html>

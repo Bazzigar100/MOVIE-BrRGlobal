@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Premium — BRGlobal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="left"><div class="logo"><span class="logo-accent">BR</span>Global Premium</div></div>
+    <div class="right"><nav class="main-nav"><a href="index.html">Home</a><a href="signin.html">Sign In</a><a href="support.html">Support</a></nav></div>
+  </header>
+
+  <main>
+    <section class="movies-section">
+      <h2>Premium Plans</h2>
+      <div class="premium-card">
+        <h3>BRGlobal Premium Monthly</h3>
+        <p class="price">₹ 399 / month</p>
+        <p>Enjoy ad-free HD streaming, downloads and exclusive content.</p>
+
+        <div class="upi-box">
+          <p><strong>UPI ID:</strong> <code id="upi">9454881411@Fam</code></p>
+          <p class="subtle">Amount: <strong>₹ 399</strong></p>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:8px;align-items:center;">
+          <button id="copyUpi" class="copy-btn">Copy UPI ID</button>
+          <button id="activate" class="btn">Activate Premium</button>
+        </div>
+
+        <p class="subtle" style="margin-top:12px;">Payment is mocked for demo purposes. After paying via your UPI app, click Activate and enter a mock transaction ID.</p>
+
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.03);">
+          <p style="margin:6px 0;"><strong>Customer Support</strong></p>
+          <p class="subtle">Address: Karnataka</p>
+          <p class="subtle">Phone: <a href="tel:9935266269">9935266269</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><p>© BRGlobal — Demo UI. Do not send real payments.</p></footer>
+
+  <script>
+    document.getElementById('copyUpi').addEventListener('click', async () => {
+      const upi = document.getElementById('upi').innerText;
+      try {
+        await navigator.clipboard.writeText(upi);
+        alert('UPI ID copied: ' + upi);
+      } catch (err) {
+        prompt('Copy this UPI ID', upi);
+      }
+    });
+
+    document.getElementById('activate').addEventListener('click', () => {
+      const tid = prompt('Enter your transaction ID (mock) after paying ₹399 via UPI:');
+      if (tid && tid.trim()) {
+        alert('Thank you! Your premium has been activated (demo). Transaction ID: ' + tid);
+        location.href = 'index.html';
+      } else {
+        alert('Activation cancelled or invalid transaction id.');
+      }
+    });
+  </script>
+</body>
+</html>

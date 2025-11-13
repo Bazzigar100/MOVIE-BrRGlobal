@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRGlobal – Stream Your World</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="BRGlobal - a lightweight Netflix-style front-end demo showcasing movies.">
+</head>
+<body>
+  <header class="site-header">
+    <div class="left">
+      <div class="logo"><span class="logo-accent">BR</span>Global</div>
+    </div>
+    <div class="right">
+      <input id="search" class="search" type="search" placeholder="Search movies, e.g. Inception" aria-label="Search movies">
+      <nav class="main-nav">
+        <a href="index.html">Home</a>
+        <a href="#">TV Shows</a>
+        <a href="signin.html">Sign In</a>
+        <a href="premium.html">Premium</a>
+        <a href="support.html">Support</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1>Watch anywhere. Cancel anytime.</h1>
+        <p>Stream a curated selection of movies with a clean, Netflix-inspired UI.</p>
+      </div>
+    </section>
+
+    <section class="movies-section">
+      <h2>Trending Now</h2>
+      <div class="movie-container" id="movieContainer"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© BRGlobal — Demo UI. Not affiliated with Netflix or movie studios.</p>
+    <p class="subtle">Customer Support — Karnataka • Phone: <a href="tel:9935266269">9935266269</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

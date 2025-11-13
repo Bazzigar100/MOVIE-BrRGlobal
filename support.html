@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Support — BRGlobal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="left"><div class="logo"><span class="logo-accent">BR</span>Global</div></div>
+    <div class="right"><nav class="main-nav"><a href="index.html">Home</a><a href="signin.html">Sign In</a><a href="premium.html">Premium</a></nav></div>
+  </header>
+
+  <main>
+    <section class="movies-section">
+      <h2>Customer Support</h2>
+
+      <div class="premium-card">
+        <h3>We're here to help</h3>
+        <p class="subtle">Address: Karnataka</p>
+        <p class="subtle">Phone: <a href="tel:9935266269">9935266269</a></p>
+        <p class="subtle">Email: <a href="mailto:support@brglobal.example">support@brglobal.example</a></p>
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.04);margin:12px 0;">
+
+        <h4>Contact form</h4>
+        <form id="supportForm" class="form-card" style="max-width:720px;">
+          <input id="cname" type="text" placeholder="Your name" required>
+          <input id="cmail" type="email" placeholder="Your email" required>
+          <select id="issueType">
+            <option value="general">General question</option>
+            <option value="billing">Billing / Payment</option>
+            <option value="technical">Technical issue</option>
+          </select>
+          <textarea id="message" rows="6" placeholder="Describe the problem or question" style="width:100%;padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:#fff;margin:8px 0;"></textarea>
+          <div style="display:flex;gap:8px;">
+            <button type="submit" class="btn">Send Message</button>
+            <button type="button" id="clearBtn" class="copy-btn">Clear</button>
+          </div>
+          <p class="subtle" style="margin-top:8px;">Messages are stored locally (demo). In production this would submit to a server.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><p>© BRGlobal — Demo UI. Support Phone: <a href="tel:9935266269">9935266269</a></p></footer>
+
+  <script>
+    // store support messages to localStorage (demo)
+    const form = document.getElementById('supportForm');
+    const clearBtn = document.getElementById('clearBtn');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('cname').value.trim();
+      const email = document.getElementById('cmail').value.trim();
+      const type = document.getElementById('issueType').value;
+      const message = document.getElementById('message').value.trim();
+      if (!name || !email || !message) return alert('Please complete all fields');
+      const entry = { name, email, type, message, date: new Date().toISOString() };
+      const key = 'brglobal_support_messages';
+      const existing = JSON.parse(localStorage.getItem(key) || '[]');
+      existing.push(entry);
+      localStorage.setItem(key, JSON.stringify(existing));
+      alert('Message saved (demo). Our support team will contact you at ' + email + ' — this is a demo storage.');
+      form.reset();
+    });
+
+    clearBtn.addEventListener('click', () => { form.reset(); });
+  </script>
+</body>
+</html>
