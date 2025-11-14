@@ -27,9 +27,16 @@
       <div class="form-card" id="addForm" style="display:none;max-width:720px;">
         <h3>Add new movie</h3>
         <p class="subtle">Fill in the details below and click Add. New items are stored locally and will appear on the homepage.</p>
+
+        <div class="preview-wrap">
+          <img id="preview" class="img-preview" src="" alt="Poster preview" style="display:none;">
+          <div class="preview-info">Poster preview will appear here when you paste an image URL.</div>
+        </div>
+
         <input id="mtitle" type="text" placeholder="Title" required>
         <input id="mimg" type="url" placeholder="Image URL (poster)" required>
         <input id="myear" type="number" placeholder="Year (e.g. 2024)">
+        <input id="murl" type="url" placeholder="Movie URL (e.g. YouTube or streaming link) - optional">
         <div style="display:flex;gap:8px;margin-top:8px;">
           <button id="addBtn" class="btn">Add Movie</button>
           <button id="backBtn" class="copy-btn">Back to Home</button>
@@ -42,7 +49,7 @@
   <footer class="site-footer"><p>© BRGlobal — Demo UI. Support Phone: <a href="tel:9935266269">9935266269</a></p></footer>
 
   <script>
-    // secret gate (simple client-side check)
+  // secret gate (simple client-side check)
     const SECRET = 'MAA'; // case-sensitive by design per request
     const unlock = document.getElementById('unlock');
     const secretInput = document.getElementById('secret');
@@ -59,17 +66,42 @@
       }
     });
 
-    // allow Enter to unlock
+  // allow Enter to unlock
     secretInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') unlock.click(); });
 
     // handle adding a movie to localStorage
     const USER_KEY = 'brglobal_user_movies';
+    const preview = document.getElementById('preview');
+    const mimgInput = document.getElementById('mimg');
+
+    // live preview updates
+    mimgInput.addEventListener('input', () => {
+      const url = String(mimgInput.value || '').trim();
+      if (!url) { preview.style.display = 'none'; preview.src = ''; preview.dataset.error = '0'; return; }
+      preview.style.display = 'block';
+      preview.dataset.error = '0';
+      preview.src = url;
+    });
+
+    preview.addEventListener('error', () => {
+      preview.dataset.error = '1';
+      preview.alt = 'Failed to load image';
+      preview.style.opacity = 0.6;
+    });
+    preview.addEventListener('load', () => {
+      preview.dataset.error = '0';
+      preview.alt = 'Poster preview';
+      preview.style.opacity = 1;
+    });
+
     document.getElementById('addBtn').addEventListener('click', () => {
       const title = document.getElementById('mtitle').value.trim();
       const img = document.getElementById('mimg').value.trim();
       const year = Number(document.getElementById('myear').value) || undefined;
+      const url = document.getElementById('murl').value.trim() || undefined;
       if (!title || !img) return alert('Please enter at least a title and image URL.');
-      const entry = { title, img, year };
+      if (preview.dataset.error === '1') return alert('The poster image failed to load. Please verify the image URL before adding.');
+      const entry = { title, img, year, url };
       try {
         const existing = JSON.parse(localStorage.getItem(USER_KEY) || '[]');
         existing.unshift(entry); // newest first
@@ -79,6 +111,8 @@
         document.getElementById('mtitle').value = '';
         document.getElementById('mimg').value = '';
         document.getElementById('myear').value = '';
+        document.getElementById('murl').value = '';
+        preview.style.display = 'none'; preview.src = ''; preview.dataset.error = '0';
       } catch (err) {
         alert('Failed to save movie (localStorage error).');
       }
